@@ -1,0 +1,216 @@
+/* src/app/auth/signin/signin.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* background-color: #f8f9fa; */
+  font-family: "Arial", sans-serif;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #343a40;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.input {
+  padding: 12px;
+  margin-bottom: 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.input:focus {
+  border-color: #80bdff;
+  outline: none;
+}
+
+.button {
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  color: red;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+/*  */
+
+section:has(.formContainer) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  /* background: white; */
+  /* background-image: url('../../../public/welcome-bg.jpg'); */
+  /* background-image: url('/bg-image.jpg'); Add your background image */
+  background-size: cover; /* Cover the entire container */
+  background-position: center; /* Center the image */
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  background: var(--color-background) !important;
+  color: var(--color-text);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin: auto;
+  background: url("/app/public/welcome-bg.jpg");
+  & p {
+    font-size: 0.875rem;
+  }
+
+  & > p:first-of-type {
+    max-width: 16rem;
+    text-align: center;
+  }
+  /* & > p:last-of-type {
+    position: relative;
+  }
+  & > p:last-of-type::before {
+    content: "";
+    position: absolute;
+    border-top: 1px solid var(--color-boundary);
+    height: 1rem;
+    width: 3rem;
+    top: 50%;
+    left: 0;
+    transform: translate(-3rem, 0);
+  } */
+}
+
+.signInbuttons {
+  width: 100%;
+}
+
+.signInbuttons button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+  margin: auto;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  width: 14.25rem;
+  width: clamp(70%, 14.25rem, 100%);
+  /* border: navajowhite; */
+  border: 1px solid var(--color-boundary);
+  background: var(--color-background);
+
+  border-radius: 0.5rem;
+  font-size: 1rem;
+
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+}
+
+.signInbuttons button:active,
+.signInbuttons button:focus-visible {
+  scale: 0.9;
+  background: var(--color-background);
+}
+
+.signInForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+
+  & button {
+    padding: 0.8rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+
+    background: var(--color-primary-blue);
+    color: var(--color-background);
+
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+  }
+
+  & button:active,
+  & button:focus-visible {
+    scale: 0.95;
+  }
+}
+
+.jobInput {
+  position: relative;
+
+  & input,
+  & input:active {
+    background-color: transparent;
+    border: 1px solid var(--color-boundary);
+    /* border: 1px solid var(--color-input-border); */
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    padding: 0.44rem 1rem;
+
+    width: 100%;
+  }
+
+  & input[type="number"]::-webkit-inner-spin-button,
+  & input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Remove the spin buttons */
+    margin: 0; /* Remove any default margins */
+  }
+
+  & input:active,
+  & input:focus-visible {
+    outline: 1px solid var(--color-boundary);
+    box-shadow: 0 0 0.25rem 0 var(--color-boundary);
+  }
+
+  & label {
+    position: absolute;
+    pointer-events: none;
+    top: 50%;
+    left: 1rem;
+    font-size: 0.8rem;
+    padding: 0rem 0.25rem;
+
+    transform: translateY(-50%);
+
+    color: var(--color-boundary);
+    background: white;
+
+    transition: all 225ms ease-in-out;
+  }
+
+  & input:active ~ :where(& label),
+  & input:focus-visible ~ :where(& label),
+  & input:not(:placeholder-shown) ~ :where(& label) {
+    /* outline: 1px solid #8dc6ff; */
+
+    color: black;
+    scale: 0.8;
+    top: -0.1rem;
+    left: 0.25rem;
+  }
+}

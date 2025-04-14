@@ -1,0 +1,117 @@
+section:has(.formContainer) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  background-image: url('/app/public/welcome-bg.jpg');
+  /* background-image: url('/bg-image.jpg'); Add your background image */
+  background-size: cover; /* Cover the entire container */
+  background-position: center; /* Center the image */
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin: auto;
+  background: url("/app/public/welcome-bg.jpg");
+  & p {
+    font-size: 0.875rem;
+  }
+
+  & > p:first-of-type {
+    max-width: 16rem;
+    text-align: center;
+  }
+  & > p:last-of-type {
+    position: relative;
+  }
+  & > p:last-of-type::before {
+    content: "";
+    position: absolute;
+    border-top: 1px solid var(--color-boundary);
+    height: 1rem;
+    width: 3rem;
+    top: 50%;
+    left: 0;
+    transform: translate(-3rem, 0);
+  }
+}
+
+.signInForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+
+  
+
+  & button {
+    padding: 0.8rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+
+    background: var(--color-primary-blue);
+    color: var(--color-background);
+  }
+}
+
+.jobInput {
+  position: relative;
+
+  & input,
+  & input:active {
+    background-color: transparent;
+    border: 1px solid var(--color-boundary);
+    /* border: 1px solid var(--color-input-border); */
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    padding: 0.44rem 1rem;
+
+    width: 100%;
+  }
+
+  & input[type="number"]::-webkit-inner-spin-button,
+  & input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Remove the spin buttons */
+    margin: 0; /* Remove any default margins */
+  }
+
+  & input:active,
+  & input:focus-visible {
+    outline: 1px solid var(--color-boundary);
+    box-shadow: 0 0 0.25rem 0 var(--color-boundary);
+  }
+
+  & label {
+    position: absolute;
+    pointer-events: none;
+    top: 50%;
+    left: 1rem;
+    font-size: 0.8rem;
+    padding: 0rem 0.25rem;
+
+    transform: translateY(-50%);
+
+    color: var(--color-boundary);
+    background: white;
+
+    transition: all 225ms ease-in-out;
+  }
+
+  & input:active ~ :where(& label),
+  & input:focus-visible ~ :where(& label),
+  & input:not(:placeholder-shown) ~ :where(& label) {
+    /* outline: 1px solid #8dc6ff; */
+
+    color: black;
+    scale: 0.8;
+    top: -0.1rem;
+    left: 0.25rem;
+  }
+}

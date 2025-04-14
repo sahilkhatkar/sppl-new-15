@@ -1,0 +1,389 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* Light theme */
+
+  --color-boundary: silver;
+
+  --color-input-border: #53a8b6;
+  --color-input-border: #ffcbcb;
+  --color-input-border: #8dc6ff;
+
+  --color-filter-menu: #2772db;
+
+  --color-background: white;
+  --color-primary-blue: #0070f3;
+  --color-primary-orange: #ff9c6d;
+  --color-primary-green: #2ecf03;
+  --color-text: black;
+  --color-pending-job: pink;
+  --body-background: aliceblue;
+
+  --color-total-order: #007bff;
+  --color-completed-order: #28a745;
+  --color-pending-order: #ffc107;
+  --color-total-value: #0056b3;
+  --color-average-value: #6f42c1;
+  --color-cancelled: #dc3545;
+
+  --color-soft-peach: #FFB6B9;
+  --color-lavender-mist: #B5A6D3;
+  --color-mint-green: #A8E6CF;
+  --color-light-coral: #FF6F61;
+  --color-sky-blue: #87CEEB;
+  --color-pale-gold: #FFD700;
+  --color-blush-pink: #F4C2C2;
+  --color-soft-teal: #70A9A1;
+
+  --color-dark-blue: #003366;
+--color-deep-purple: #6A0DAD;
+--color-dark-teal: #004D4D;
+--color-rich-maroon: #800000;
+--color-navy-blue: #001f3d;
+--color-crimson-red: #9B1B30;
+--color-dark-emerald: #006747;
+--color-dark-plum: #580F41;
+
+
+
+  /* Dark theme */
+
+  /* --color-primary-blue: #17ed90;
+  --color-background: #243133;
+  --color-accent: #12cdea;
+  --font-color: #ffffff;
+  
+  --color-text: white;
+  --body-background: rgb(66, 66, 66); */
+
+  --layout-margin: 1rem;
+}
+
+/* :root:has(#dark:checked), */
+:root:has(.dark) {
+  --color-primary-blue: #17ed90;
+  --color-primary-blue: #005b41;
+  --color-primary-blue: #2a866c;
+  --color-background: #243133;
+  --color-background: #333;
+  --color-accent: #12cdea;
+  --font-color: #ffffff;
+
+  --color-alt-row: #444;
+
+  --color-text: white;
+  --body-background: rgb(66, 66, 66);
+
+  text-emphasis-color: white;
+  -webkit-text-fill-color: white;
+
+  & table tr:nth-of-type(even) {
+    background: #444;
+  }
+}
+
+:root:has(.light) {
+  /* Light theme */
+
+  --color-boundary: silver;
+
+  --color-input-border: #53a8b6;
+  --color-input-border: #ffcbcb;
+  --color-input-border: #8dc6ff;
+
+  --color-alt-row: rgb(242, 242, 242);
+
+  --color-filter-menu: #2772db;
+
+  --color-background: white;
+  --color-primary-blue: #0070f3;
+  /* --color-primary-blue: #84c9ff; */
+  --color-primary-orange: #ff9c6d;
+  --color-primary-green: #2ecf03;
+  --color-text: black;
+  --color-pending-job: pink;
+  --body-background: aliceblue;
+
+  --color-total-order: #007bff;
+  --color-completed-order: #28a745;
+  --color-pending-order: #ffc107;
+  --color-total-value: #0056b3;
+  --color-average-value: #6f42c1;
+  --color-cancelled: #dc3545;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+
+  ::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-boundary);
+    border-radius: 100vw;
+    margin: 1rem;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-primary-blue);
+    /* border: 0.125rem solid var(--color-boundary); */
+    border-radius: 100vw;
+  }
+}
+
+body {
+  /* display: grid; */
+  /* grid-template-columns: 17rem 1fr; */
+  display: flex;
+  flex-direction: column;
+  /* gap: 2rem; */
+  background: var(--body-background);
+  position: relative;
+
+  /* background: linear-gradient(to right, #e2f0ff7d, #ebebeb78); */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+}
+
+h1 {
+  background: linear-gradient(90deg,
+      #f07dff,
+      #0043ff);
+  /* Set your gradient colors */
+  background-clip: text;
+  font-weight: unset;
+  -webkit-background-clip: text;
+  /* Clip the background to the text */
+  -webkit-text-fill-color: transparent;
+  /* Make the text color transparent */
+}
+
+h2 {
+  background: linear-gradient(90deg,
+      #17c964,
+      #f07dff);
+  /* Set your gradient colors */
+  background-clip: text;
+  font-weight: unset;
+  -webkit-background-clip: text;
+  /* Clip the background to the text */
+  -webkit-text-fill-color: transparent;
+  /* Make the text color transparent */
+}
+
+/* HTML: <div class="loader"></div> */
+
+.loader-wrapper {
+  position: absolute;
+  width: 100vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(0%, 50%);
+}
+
+.loader {
+  width: 50px;
+  padding: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #25b09b;
+  background: var(--color-primary-blue);
+  --_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+  mask: var(--_m);
+  -webkit-mask-composite: source-out;
+  mask-composite: subtract;
+  animation: l3 1s infinite linear;
+}
+
+@keyframes l3 {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input:user-invalid {
+  outline: pink !important;
+}
+
+/* Table */
+
+.layoutRightDiv {
+  /* background: red; */
+  flex-grow: 1;
+  max-height: calc(100vh - 2 * var(--layout-margin));
+  margin: var(--layout-margin);
+  margin-left: 0rem;
+  min-height: calc(100vh - 2 * var(--layout-margin));
+  min-height: 90vh;
+}
+
+.layoutRightDivSignin {
+  flex: 1;
+  max-height: 100vh;
+}
+
+@media (max-width: 777px) {
+  .layoutRightDiv {
+    margin: var(--layout-margin);
+    height: calc(100vh - 2 * var(--layout-margin) - 3.5rem);
+    min-height: unset;
+    max-height: unset;
+  }
+}
+
+/* Slider */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 2.5rem;
+  height: 1.5rem;
+  /* width: 60px;
+  height: 34px; */
+}
+
+.switch>input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  /* height: 26px;
+  width: 26px; */
+  height: 1rem;
+  width: 1rem;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked+.slider {
+  background-color: #2196f3;
+}
+
+input:focus+.slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked+.slider:before {
+  /* Change 26px to 1rem */
+  -webkit-transform: translateX(1rem);
+  -ms-transform: translateX(1rem);
+  transform: translateX(1rem);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+::-moz-selection,
+::selection {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* Table css */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table thead th {
+  background: var(--color-primary-blue);
+  color: white;
+
+  /* Freeze the headers */
+  position: sticky;
+  top: 0;
+}
+
+table th:first-child,
+table td:first-child {
+  border-radius: 0.8rem 0 0 0.8rem;
+}
+
+table th:last-child,
+table td:last-child {
+  border-radius: 0 0.8rem 0.8rem 0;
+}
+
+table th,
+table td:nth-of-type(2) {
+  text-wrap: nowrap;
+}
+
+table td:nth-of-type(5) {
+  text-wrap: wrap;
+  min-width: 10rem;
+}
+
+table tbody:nth-child(2n + 1) {
+  background: rgb(242, 242, 242) !important;
+}
+
+table tr {
+  margin: 1rem;
+}
+
+table th,
+table td {
+  /* border: 1px solid #ddd; */
+  text-wrap: nowrap;
+  padding: 12px;
+  font-size: 0.875rem;
+
+  &>div {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+table td {
+  padding: 6px 12px;
+}
+
+table th,
+table td {
+  text-align: left;
+  vertical-align: middle;
+}

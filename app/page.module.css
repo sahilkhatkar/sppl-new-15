@@ -1,0 +1,78 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--color-background);
+  border-radius: 1rem;
+  padding: 1rem;
+
+  height: calc(100vh - 2rem);
+  overflow: auto;
+
+  & h1 {
+    background: linear-gradient(
+      90deg,
+      #f07dff,
+      #0043ff
+    ); /* Set your gradient colors */
+    background-clip: text;
+    font-weight: unset;
+    -webkit-background-clip: text; /* Clip the background to the text */
+    -webkit-text-fill-color: transparent; /* Make the text color transparent */
+  }
+
+  & > div:first-of-type,
+  & > div:first-of-type div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    /* border: 2px solid; */
+
+    & button {
+      /* width: 3rem; */
+      background: transparent;
+      aspect-ratio: 1;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      
+      & svg {
+        color: var(--color-primary-blue);
+        font-size: 1.8rem;
+      }
+    }
+  }
+}
+
+.charts {
+  display: flex;
+  flex-direction: column;
+
+  display: grid;
+  grid-template-columns: 40rem 40rem;
+
+  & canvas {
+    width: 100%; /* Adjust as necessary */
+    max-width: 30rem; /* Control the maximum width */
+    height: auto;
+    max-height: 80vh;
+  }
+}
+
+@media (max-width: 777px) {
+  .container {
+    height: calc(100vh - 5.5rem);
+    overflow: auto;
+
+    & div > strong {
+      display: none;
+    }
+  }
+
+  .charts {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+}

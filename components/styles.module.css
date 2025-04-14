@@ -1,0 +1,28 @@
+.upperNavbar {
+  display: flex;
+
+  & a {
+    width: auto;
+    text-align: center;
+    border: none;
+    background: var(--color-background);
+    background: transparent;
+    border-bottom: 2px solid var(--color-background) ;
+    
+    color: var(--color-text);
+    padding: 6px;
+    width: 100%;
+
+    cursor: pointer;
+  }
+
+  & .active,
+  & a:hover,
+  & a:focus {
+    font-weight: bold;
+    border-radius: 3rem 0;
+    background: var(--color-primary-blue);
+    color: var(--color-background);
+    /* border-bottom: 2px solid var(--color-primary-blue) ; */
+  }
+}
