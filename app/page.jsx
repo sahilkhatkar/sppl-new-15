@@ -43,6 +43,8 @@ export default async function Home() {
 
   const session = await auth();
 
+  const name = session?.user?.name.split(" ")[0];
+
   // console.log(navigator.userAgent);
 
   let todayDate = new Date();
@@ -51,7 +53,7 @@ export default async function Home() {
     <div className={styles.container}>
       <div>
         <h1>
-          Hi, <strong>{session?.user?.name.split(" ")[0]}</strong>
+          Hi, <strong>{name.charAt(0).toUpperCase() + name.slice(1).toLocaleLowerCase()}</strong>
         </h1>
         <div>
           <strong>{todayDate.toDateString()}</strong>

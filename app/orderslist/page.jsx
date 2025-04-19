@@ -113,6 +113,7 @@ export default function OrdersList() {
     if (
       job.po_number != "Advance" &&
       job.remarks != "Hold" &&
+      job.remarks != "Corrugated Box" &&
       job.jobcard_status == "Created" &&
       job.print_ready_status == "" &&
       job.dispatch_quantity == ""
@@ -149,6 +150,39 @@ export default function OrdersList() {
   }, 0);
 
   const pendingOrder = pendingJobs;
+
+  const todayOrder = data?.reduce((arr, job) => {
+    if (
+      // Yesterday's date
+      // (new Date(job.timestamp) > new Date(new Date(new Date() - 84000 * 1000).toISOString().split("T")[0]))
+      // Todays's date
+      (new Date(job.timestamp) > new Date(new Date().toISOString().split("T")[0]))
+    )
+      arr.push(job);
+    return arr;
+  }, []);
+
+  const todayDispatch = data?.reduce((arr, job) => {
+    if (new Date(job.dispatch_actual) > new Date(new Date().toISOString().split("T")[0]))
+      arr.push(job);
+    return arr;
+  }, []);
+
+  const todayPrintComplete = data?.reduce((arr, job) => {
+    if ((new Date(job.print_ready_actual) > new Date(new Date().toISOString().split("T")[0]))
+      && job.print_ready_status === "Print complete")
+      arr.push(job);
+    return arr;
+  }, []);
+
+  const todayMaterialReady = data?.reduce((arr, job) => {
+    if ((new Date(job.print_ready_actual) > new Date(new Date().toISOString().split("T")[0]))
+      && job.print_ready_status === "Material ready"
+    )
+      arr.push(job);
+    return arr;
+  }, []);
+
   // const pendingOrder = data.length - completedJobs - cancelOrder;
   const avgOrderValue = (
     totalAmount /
@@ -212,6 +246,11 @@ export default function OrdersList() {
     printPending: printPending,
     totalPending: totalPending,
     printReady: printCompleteMaterialReady,
+
+    todayOrder: todayOrder,
+    todayDispatch: todayDispatch,
+    todayPrintComplete: todayPrintComplete,
+    todayMaterialReady: todayMaterialReady,
   };
 
 

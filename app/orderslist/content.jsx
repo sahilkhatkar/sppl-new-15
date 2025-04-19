@@ -9,9 +9,14 @@ import {
   IoArrowBackCircleOutline,
   IoArrowForwardCircleOutline,
 } from "react-icons/io5";
-import { IoMdSearch } from "react-icons/io";
+import { FcOk } from "react-icons/fc";
+import { IoIosCloseCircle, IoMdSearch } from "react-icons/io";
+import { IoCheckmarkCircle } from "react-icons/io5";
 import { HiOutlineExternalLink } from "react-icons/hi";
+import { FaGears } from "react-icons/fa6";
+import { FaPaperPlane } from "react-icons/fa";
 import { GoLinkExternal } from "react-icons/go";
+import { BsArrowUpRightCircle, BsFillCCircleFill, BsFillHCircleFill, BsFillPCircleFill, BsFillRCircleFill, BsPCircle } from "react-icons/bs";
 import LoadingElement from "../../components/LoadingElement";
 
 import * as XLSX from "xlsx";
@@ -19,6 +24,8 @@ import ExportToExcel from "../../components/ExportToExcel";
 import FilterMenu from "./filterMenu";
 import TableToImage from "./tableToImage";
 import html2canvas from "html2canvas";
+import { MdPending } from "react-icons/md";
+import { PiWarningCircleFill } from "react-icons/pi";
 
 // import ViewAll from "../../../components/ViewAll";
 
@@ -42,6 +49,11 @@ export default function Content(props) {
   const totalPending = data.totalPending;
   const printCompleteMaterialReady = data.printReady;
 
+  const todayOrder = data.todayOrder;
+  const todayDispatch = data.todayDispatch;
+  const todayPrintComplete = data.todayPrintComplete;
+  const todayMaterialReady = data.todayMaterialReady;
+
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 10;
@@ -62,6 +74,7 @@ export default function Content(props) {
   // const numbers = [...Array(npage + 1).keys()].slice(1);
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [customQuery, setCustomQuery] = useState("");
   const [pdfHeading, setPdfHeading] = useState("All Orders");
 
   useEffect(() => {
@@ -97,38 +110,79 @@ export default function Content(props) {
           <div className={styles.dashboardHeaderSection}>
 
             <div
-              onClick={() => {
-                setCurrentPage(1);
-                setFilterJobList(totalOrders);
-                setPdfHeading("All orders");
-              }}
               style={{ background: "#00bbf9" }}
             >
               <span>Total orders</span>
-              <span>{totalOrders.length}</span>
-            </div>
-            <div
-              onClick={() => {
-                setCurrentPage(1);
-                setFilterJobList(completedJobs);
-                setPdfHeading("Dispatched orders");
-              }}
-              style={{ background: "var(--color-primary-green)" }}
-            >
-              <span>Completed</span>
-              <span>{completedJobs.length}</span>
+              <span
+                className={styles.headerStatus}
+                onClick={() => {
+                  setCurrentPage(1);
+                  setFilterJobList(todayOrder);
+                  setPdfHeading(`${new Date().toISOString().split("T")[0]} orders`);
+                }}
+              >
+                {todayOrder.length > 0 ? `+${todayOrder.length}` : ""}
+              </span>
+              <span
+                onClick={() => {
+                  setCurrentPage(1);
+                  setFilterJobList(totalOrders);
+                  setPdfHeading("All orders");
+                }}
+              >{totalOrders.length}</span>
             </div>
 
             <div
-              onClick={() => {
-                setCurrentPage(1);
-                setFilterJobList(printCompleteMaterialReady);
-                setPdfHeading("Print comp./Material ready List");
-              }}
+
+              style={{ background: "var(--color-primary-green)" }}
+            >
+              <span>Completed</span>
+              <span
+                className={styles.headerStatus}
+                onClick={() => {
+                  setCurrentPage(1);
+                  setFilterJobList(todayDispatch);
+                  setPdfHeading(`${new Date().toISOString().split("T")[0]} Dispatch orders`);
+                }}
+              >
+                {todayDispatch.length > 0 ? `+${todayDispatch.length}` : ""}
+              </span>
+              <span
+                onClick={() => {
+                  setCurrentPage(1);
+                  setFilterJobList(completedJobs);
+                  setPdfHeading("Dispatched orders");
+                }}
+              >{completedJobs.length}</span>
+            </div>
+
+            <div
               style={{ background: "var(--color-total-order)" }}
             >
               <span>Print comp. / Ready</span>
-              <span>{printCompleteMaterialReady.length}</span>
+              <span
+                className={styles.headerStatus}
+                onClick={() => {
+                  setCurrentPage(1);
+                  setFilterJobList([...todayMaterialReady, ...todayPrintComplete.filter(job => !todayMaterialReady.includes(job))]);
+                  setPdfHeading(`${new Date().toISOString().split("T")[0]} Print complete + Material ready list`);
+                }}
+              >
+                {
+                  // todayPrintComplete.length > 0
+                  // ?
+                  `+${todayPrintComplete.length} P + ${todayMaterialReady.length} R`
+                  // :
+                  // ""
+                }
+              </span>
+              <span
+                onClick={() => {
+                  setCurrentPage(1);
+                  setFilterJobList(printCompleteMaterialReady);
+                  setPdfHeading("Print comp./Material ready List");
+                }}
+              >{printCompleteMaterialReady.length}</span>
             </div>
 
             <div
@@ -191,38 +245,52 @@ export default function Content(props) {
               <span>{totalPending.length}</span>
             </div>
 
-            <div
+            {/* <div
               onClick={() => {
                 setCurrentPage(1);
                 const compOrders = data?.data.reduce((accumulator, job) => {
                   if (
                     // job.client == "Nitin Lifescience Unit III" ||
-                    // (job.client == "Combitic" ||
-                    // job.client == "Combitic Global Caplet") &&
+                    // (
+                    //   job.client == "Leeford Healthcare" ||
+                    //   job.client == "Allkind Healthcare Unit III Katha" ||
+                    //   job.client == "Allkind Healthcare Unit-I" ||
+                    //   job.client == "Allrite Healthcare" ||
+                    //   job.client == "Allrite Healthcare Unit-I" ||
+                    //   job.client == "Allrite Pharmaceuticals Unit-I" ||
+                    //   job.client == "Allrite Pharmaceuticals Unit-II")
+                    // &&
 
                     // For Designers
                     // job.artwork_status != "Approved" &&
                     // job.artwork_status != "Repeat" &&
                     // job.designer === "Vikas" &&
-                    job.dispatch_order_status != "Cancel" &&
-                    job.po_number != "Advance" &&
-                    (new Date(job.timestamp) > new Date("2025-01-01T00:00:00Z"))
+
+
+                    (job.po_number == "Advance" ||
+                      job.artwork_status == "Hold" ||
+                      job.remarks == "Hold") &&
+                    job.print_ready_status === "" &&
+                    // (new Date(job.timestamp) > new Date("2025-01-01T00:00:00Z"))
                     // &&
                     // job.po_number == 3 &&
-                    // job.dispatch_quantity == ""
+                    job.dispatch_quantity == ""
                   ) {
                     accumulator.push(job);
                   }
                   return accumulator;
                 }, []);
                 setFilterJobList(compOrders);
-                setPdfHeading("All orders");
+                setPdfHeading("Hold Orders List");
               }}
               style={{ background: "var(--color-pending-order)" }}
             >
               <span>Custom Query</span>
-              <span><input type="text" /></span>
-            </div>
+              <span><input className={styles.inputField} type="text" placeholder="Type here..." value={customQuery} onChange={e => {
+                setCustomQuery(e.target.value);
+                console.log(e.target.value);
+              }} /></span>
+            </div> */}
 
           </div>
         </main>
@@ -261,10 +329,11 @@ export default function Content(props) {
           <div>
             {/* <ViewAll /> */}
 
-            <Link href="/filter-view" target="blank">
+            {/* <Link href="/filter-view" target="blank">
               View full table
               <HiOutlineExternalLink />
-            </Link>
+            </Link> */}
+            
             <Download
               pendingListData={filterJobList}
               query={searchQuery}
@@ -280,7 +349,8 @@ export default function Content(props) {
               onClick={captureTable}
               style={{
                 padding: "10px 20px",
-                backgroundColor: "#4CAF50",
+                // backgroundColor: "#4CAF50",
+                backgroundColor: "var(--color-primary-green)",
                 color: "white",
                 border: "none",
                 borderRadius: "5px",
@@ -302,12 +372,14 @@ export default function Content(props) {
                 <th>Client</th>
                 <th>Job</th>
                 <th>Quantity</th>
+                <th>Sheets</th>
                 <th>Paper</th>
                 <th>Artwork</th>
-                <th>Job card</th>
+                <th>J/C</th>
+                <th>Print ready</th>
                 <th>Dispatch</th>
                 <th>Balance</th>
-                <th>Dispatch Item</th>
+                <th>Dispatch</th>
               </tr>
             </thead>
 
@@ -340,7 +412,7 @@ export default function Content(props) {
                             <span>
                               {new Date(job.timestamp).toDateString().slice(4)}
                             </span>
-                            <span
+                            {/* <span
                               style={{
                                 fontSize: ".75rem",
                                 color: "var(--color-boundary)",
@@ -348,7 +420,7 @@ export default function Content(props) {
                               }}
                             >
                               {new Date(job.timestamp).toLocaleTimeString()}
-                            </span>
+                            </span> */}
                           </p>
                         ) : (
                           ""
@@ -359,109 +431,156 @@ export default function Content(props) {
                         {job.job_name}
                       </td>
                       <td>{job.quantity}</td>
+                      <td>{parseInt(job.quantity / job.sheet_size_ups) + 200}</td>
 
                       {
                         job.paper_receiving_final_receiving_status === "Yes" ? (
-                          <td className={styles.status}>
-                            <span>Available</span>
+                          <td>
+                            <span>
+                              <IoCheckmarkCircle style={{ fontSize: "1.3rem", color: "var(--color-primary-green)" }} />
+                            </span>
                           </td>
-                        ) : (
-                          <td className={styles.status}>
-                            <span style={{ background: "gold" }}>pending</span>
+                          // <td className={styles.status}>
+                          //   <span>Available</span>
+                          // </td>
+                        ) : job.paper_receiving_final_receiving_status === "No" ? (
+                          <td>
+                            <span>
+                              <IoIosCloseCircle style={{ fontSize: "1.3rem", color: "var(--color-light-coral)" }} />
+                            </span>
                           </td>
-                        )}
+                        ) : <td></td>}
 
-                      {/* {job.dispatch_order_status === "Cancel" ? (
-                        <td className={styles.status}>
-                          <span style={{ background: "red" }}>Cancel</span>
-                        </td>
-                      ) : job.sheet_size_ups &&
-                        job.sheet_size_length &&
-                        job.sheet_size_width ? (
-                        <td className={styles.status}>
-                          <span>Available</span>
-                        </td>
-                      ) : (
-                        <td className={styles.status}>
-                          <span style={{ background: "gold" }}>pending</span>
-                        </td>
-                      )} */}
+                      {
+                        job.artwork_status === "Sent for Approval" ? (
+                          <td>
+                            <span>
+                              <FaPaperPlane style={{ color: "var(--color-pending-order)" }} />
+                            </span>
+                          </td>
+                        ) : (job.artwork_status === "Approved" || job.artwork_status === "Repeat") ? (
+                          <td>
+                            <span>
+                              <IoCheckmarkCircle style={{ fontSize: "1.3rem", color: "var(--color-primary-green)" }} />
+                            </span>
+                          </td>
+                        )
+                          : job.artwork_status === "Hold" ? (
+                            <td>
+                              <span>
+                                <BsFillHCircleFill style={{ fontSize: "1.055rem", color: "var(--color-light-coral)" }} />
+                              </span>
+                            </td>
+                          )
+                            : job.artwork_status === "Correction" ? (
+                              <td>
+                                <span>
+                                  <BsFillCCircleFill style={{ fontSize: "1.055rem", color: "var(--color-light-coral)" }} />
+                                </span>
+                              </td>
+                            )
+                              : job.artwork_status === "Under Process" ? (
+                                <td>
+                                  <span>
+                                    <FaGears style={{ fontSize: "1.3rem", color: "var(--color-total-order)" }} />
+                                  </span>
+                                </td>
+                              )
+                                : <td>
+                                  <span>{job.artwork_status}</span>
+                                </td>
+                      }
 
-                      {job.artwork_status === "Sent for Approval" ? (
-                        <td className={styles.status}>
-                          <span style={{ background: "gold" }}>
-                            {job.artwork_status}
-                          </span>
-                        </td>
-                      ) : job.artwork_status != "" ? (
-                        <td className={styles.status}>
-                          <span>{job.artwork_status}</span>
-                        </td>
-                      ) : job.artwork_status === "Hold" ? (
+                      {
+                        job.jobcard_status === "Created" ? (
+                          <td>
+                            <span>
+                              <IoCheckmarkCircle style={{ fontSize: "1.3rem", color: "var(--color-primary-green)" }} />
+                            </span>
+                          </td>
+                        ) : job.jobcard_status != "" ? (
+                          <td className={styles.status}>
+                            <span style={{ background: "red" }}>
+                              {job.jobcard_status}
+                            </span>
+                          </td>
+                        )
+                          :
+                          <td className={styles.status}>
+                          </td>
+                      }
+
+                      {job.print_ready_status === "Print complete" ? (
                         <td>
-                          <span style={{ background: "#8dc6ff !important" }}>
-                            {job.artwork_status}
+                          <span>
+                            <Link
+                              href={`https://docs.google.com/forms/d/e/1FAIpQLSd1ducvPDYvaQoENRtERdmaK0WB1KIZARW9v1rMKFYhLewbQQ/viewform?usp=pp_url&entry.628131065=${job.job_order}`}
+                              target="_blank"
+                            >
+                              <BsFillPCircleFill style={{ fontSize: "1.3rem", color: "var(--color-total-order)" }} />
+                              {/* <GoLinkExternal /> */}
+                            </Link>
                           </span>
                         </td>
-                      ) : job.artwork_status === "" ? (
+                      ) : job.print_ready_status === "Material ready" ? (
+                        <td>
+                          <span>
+                            <BsFillRCircleFill style={{ fontSize: "1.3rem", color: "var(--color-primary-green)" }} />
+                          </span>
+                        </td>
+                      ) : job.jobcard_status === "Created" && job.print_ready_status === "" ? (
+                        <td>
+                          <Link
+                            href={`https://docs.google.com/forms/d/e/1FAIpQLSd1ducvPDYvaQoENRtERdmaK0WB1KIZARW9v1rMKFYhLewbQQ/viewform?usp=pp_url&entry.628131065=${job.job_order}`}
+                            target="_blank">
+                            <BsArrowUpRightCircle style={{ fontSize: "1.2rem", color: "var(--color-primary-blue)" }} />
+                          </Link>
+                        </td>
+                      ) :
                         <td></td>
-                      ) : (
-                        ""
-                      )}
-
-                      {job.jobcard_status === "Created" ? (
-                        <td className={styles.status}>
-                          <span>{job.jobcard_status}</span>
-                        </td>
-                      ) : job.jobcard_status != "" ? (
-                        <td className={styles.status}>
-                          <span style={{ background: "red" }}>
-                            {job.jobcard_status}
-                          </span>
-                        </td>
-                      ) : job.jobcard_status === "" ? (
-                        <td className={styles.status}>
-                        </td>
-                      ) : (
-                        ""
-                      )}
+                      }
 
                       <td>
                         <span>{job.dispatch_quantity}</span>
                       </td>
 
-                      {job.dispatch_status === "Partially Dispatched" ? (
-                        <td className={styles.status}>
-                          <span style={{ color: "white", background: "red" }}>
-                            {job.dispatch_quantity - job.quantity}
-                          </span>
-                        </td>
-                      ) : job.dispatch_status === "" ? (
-                        <td></td>
-                      ) : job.dispatch_status === "Dispatched" ? (
-                        <td className={styles.status}>
-                          <span>0</span>
-                        </td>
-                      ) : job.dispatch_status === "Extra Dispatched" ? (
-                        <td className={styles.status}>
-                          <span
-                            style={{ color: "white", background: "#2ecf03" }}
-                          >
-                            +{job.dispatch_quantity - job.quantity}
-                          </span>
-                        </td>
-                      ) : (
-                        ""
-                      )}
+                      {
+                        job.dispatch_status === "Partially Dispatched" ? (
+                          <td className={styles.status}>
+                            <span style={{ color: "white", background: "red" }}>
+                              {job.dispatch_quantity - job.quantity}
+                            </span>
+                          </td>
+                        ) : job.dispatch_status === "" ? (
+                          <td></td>
+                        ) : job.dispatch_status === "Dispatched" ? (
+                          <td className={styles.status}>
+                            <span>0</span>
+                          </td>
+                        ) : job.dispatch_status === "Extra Dispatched" ? (
+                          <td className={styles.status}>
+                            <span
+                              style={{ color: "white", background: "#2ecf03" }}
+                            >
+                              +{job.dispatch_quantity - job.quantity}
+                            </span>
+                          </td>
+                        ) :
+                          <td></td>
+                      }
 
-                      <td>
-                        <Link
-                          href={`https://docs.google.com/forms/d/e/1FAIpQLSen9hQ_DaoyrxFcEnAMMBlyCrRBQIOrJqsIqUPDh359r0iztw/viewform?usp=pp_url&entry.1900203967=${job.job_order}`}
-                          target="_blank"
-                        >
-                          <GoLinkExternal />
+                      <td style={{ color: "var(--color-text)" }}>
 
-                        </Link>
+                        {
+                          (job.dispatch_quantity < job.quantity) && job.jobcard_status === "Created" ?
+                            <Link
+                              href={`https://docs.google.com/forms/d/e/1FAIpQLSen9hQ_DaoyrxFcEnAMMBlyCrRBQIOrJqsIqUPDh359r0iztw/viewform?usp=pp_url&entry.1900203967=${job.job_order}`}
+                              target="_blank"
+                            >
+                              <BsArrowUpRightCircle style={{ fontSize: "1.2rem", color: "var(--color-primary-blue)" }} />
+                            </Link>
+                            : ""
+                        }
                       </td>
                     </tr>
                   ))}

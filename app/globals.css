@@ -217,6 +217,7 @@ h2 {
 a {
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
 }
 
 input:user-invalid {
@@ -361,9 +362,9 @@ table tbody:nth-child(2n + 1) {
   background: rgb(242, 242, 242) !important;
 }
 
-table tr {
+/* table tr {
   margin: 1rem;
-}
+} */
 
 table th,
 table td {

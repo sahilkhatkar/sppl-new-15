@@ -45,8 +45,8 @@ export default function Download({ pendingListData, query, pdfHeading }) {
       if (a.print_ready_status < b.print_ready_status) return -1;
 
       // If both client and artwork_status are equal, compare by job_name (ascending order)
-      if (a.jobcard_status > b.jobcard_status) return 1;
-      if (a.jobcard_status < b.jobcard_status) return -1;
+      // if (a.jobcard_status > b.jobcard_status) return 1;
+      // if (a.jobcard_status < b.jobcard_status) return -1;
 
       return 0;
     });
@@ -122,7 +122,8 @@ export default function Download({ pendingListData, query, pdfHeading }) {
         item.artwork_status,
         item.artwork_remarks,
         item.jobcard_status,
-        item.print_ready_status,
+        // item.print_ready_status,
+        `${item.print_ready_status === "Material ready" ? "Ready" : item.print_ready_status === "Print complete" ? "P.C." : ""}`,
         // item.dispatch_quantity,
 
         // `${
@@ -168,7 +169,8 @@ export default function Download({ pendingListData, query, pdfHeading }) {
           data.cell.styles.textColor = [0, 0, 0]; // Optional: Black text for contrast
         }
 
-        if (data.column.index === 13 && data.cell.raw === "Material ready") {
+        // if (data.column.index === 13 && data.cell.raw === "Material ready") {
+        if (data.column.index === 13 && data.cell.raw === "Ready") {
           data.cell.styles.fillColor = [46, 207, 3]; // Green color for entire row
           data.cell.styles.textColor = [0, 0, 0]; // Optional: Black text for contrast
         }
@@ -194,7 +196,7 @@ export default function Download({ pendingListData, query, pdfHeading }) {
     });
 
     // Save the PDF
-    // doc.save(`${query}.pdf`);
+    doc.save(`${query}.pdf`);
     // setDownloading(false);
     const pdfDataUrl = doc.output('dataurlnewwindow');
   };

@@ -2,13 +2,10 @@
 
 import styles from "./page.module.css";
 import { useTheme } from "../ThemeProvider";
-import { useData } from "../DataProvider";
 
 export default function SignOutPage() {
   
   const { theme, toggleTheme } = useTheme();
-
-  console.log("Data", useData());
 
   return (
     <div className={styles.container}>
@@ -17,7 +14,7 @@ export default function SignOutPage() {
         <p>Theme: </p>
 
         <button onClick={toggleTheme}>
-          {theme === "Light" ? "Dark" : "Light"}
+          {theme === "light" ? "Dark" : "Light"}
         </button>
       </div>
 
