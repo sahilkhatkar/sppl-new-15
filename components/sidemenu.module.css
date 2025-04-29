@@ -164,6 +164,7 @@
 
   .sidemenu {
     display: flex;
+    /* display: none; */
     width: fit-content;
     position: absolute;
     /* top: 8px; */

@@ -1,20 +1,19 @@
+// app/layout.jsx or layout.tsx
 import { auth } from "../auth";
 import Sidemenu from "../components/Sidemenu";
 import "./globals.css";
-import {
-  Merriweather,
-  Source_Sans_3,
-} from "next/font/google";
+import { Merriweather, Source_Sans_3 } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "./ThemeProvider";
 import { DataProvider } from "./DataProvider";
 
-const crimson_test = Merriweather({
+// Fonts
+const merriweather = Merriweather({
   weight: ["300", "700", "900"],
   subsets: ["latin"],
 });
 
-const open_sans_font = Source_Sans_3({
+const sourceSans = Source_Sans_3({
   weight: ["200", "300", "400", "500", "600"],
   subsets: ["latin"],
 });
@@ -27,36 +26,26 @@ export const metadata = {
 
 const scriptURL = "https://script.google.com/macros/s/AKfycbwyQEojQ3oPDKFgw9hDXz_8BDgtEw1WbM9diSOR1u6nhktzw9ZFqINgUT9vGWdJj8E7/exec";
 
-// This runs on the server!
 async function getSettingsFromAPI() {
-  const res = await fetch(scriptURL, {
-    // next: { revalidate: 300 }, // revalidate every 5 minutes
-  });
+  const res = await fetch(scriptURL);
   const data = await res.json();
   return data;
 }
 
 export default async function RootLayout({ children }) {
   const session = await auth();
-  const data = await getSettingsFromAPI();
-  // console.log("Settings data:", data);
-
-  // console.log("IM running on the server");
+  const settings = await getSettingsFromAPI();
 
   return (
-    <html lang="en">
-      <SessionProvider session={children.session}>
-        <body className={open_sans_font.className}>
+    <html lang="en" className={sourceSans.className}>
+      <SessionProvider session={session}>
+        <body>
           <ThemeProvider>
-            <DataProvider data={data}>
-              <>
-                <div style={{ display: "flex" }}>
-                  <Sidemenu />
-                  <div className="layoutRightDiv">
-                    {children}
-                  </div>
-                </div>
-              </>
+            <DataProvider data={settings}>
+              <div className="layoutWrapper">
+                <Sidemenu />
+                <div className="layoutRightDiv">{children}</div>
+              </div>
             </DataProvider>
           </ThemeProvider>
         </body>

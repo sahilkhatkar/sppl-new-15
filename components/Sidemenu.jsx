@@ -33,7 +33,7 @@ export default function Sidemenu() {
 
   const showHideMenu = () => {
     console.log("helllo");
-    
+
     sideMenuRef.current.classList.toggle(styles.hideMenu);
     // setMenuState(!menuState);
   };
@@ -57,7 +57,7 @@ export default function Sidemenu() {
               alt="sppl-logo"
             /> */}
 
-            <h2 style={{fontWeight: "bold", textAlign:'center', color:"red !important"}}>SPPL</h2>
+            <h2 style={{ fontWeight: "bold", textAlign: 'center', color: "red !important" }}>SPPL</h2>
           </div>
           <ul>
             <li>
@@ -91,7 +91,7 @@ export default function Sidemenu() {
                 </span>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 href="/jobstatus"
                 className={`${pathname.startsWith("/jobstatus") ? styles.active : ""
@@ -116,7 +116,7 @@ export default function Sidemenu() {
                   Excess qty
                 </span>
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 href="/downloads"
@@ -125,8 +125,8 @@ export default function Sidemenu() {
               >
                 <LiaDownloadSolid />
                 <span>
-
-                  Downloads
+                  List
+                  {/* Downloads */}
                 </span>
               </Link>
             </li>

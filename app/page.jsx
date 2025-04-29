@@ -11,6 +11,7 @@ import { IoNotifications } from "react-icons/io5";
 
 import BgImg from "../public/welcome-bg.jpg";
 import { auth } from "../auth";
+import CustomDropdown from "@/components/CustomDropdown";
 
 // (async function () {
 //   const data = [
@@ -49,6 +50,13 @@ export default async function Home() {
 
   let todayDate = new Date();
 
+  const options = [
+    "Today",
+    "Yesterday",
+    "This Week",
+    "This Month",
+  ]
+
   return (
     <div className={styles.container}>
       <div>
@@ -77,6 +85,8 @@ export default async function Home() {
       {/* <SalesComponent /> */}
 
       {/* <PendingList /> */}
+
+      <CustomDropdown defaultValue={options[0]} options={options}/>
     </div>
   );
 }

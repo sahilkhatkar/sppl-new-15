@@ -37,13 +37,13 @@
   --color-soft-teal: #70A9A1;
 
   --color-dark-blue: #003366;
---color-deep-purple: #6A0DAD;
---color-dark-teal: #004D4D;
---color-rich-maroon: #800000;
---color-navy-blue: #001f3d;
---color-crimson-red: #9B1B30;
---color-dark-emerald: #006747;
---color-dark-plum: #580F41;
+  --color-deep-purple: #6A0DAD;
+  --color-dark-teal: #004D4D;
+  --color-rich-maroon: #800000;
+  --color-navy-blue: #001f3d;
+  --color-crimson-red: #9B1B30;
+  --color-dark-emerald: #006747;
+  --color-dark-plum: #580F41;
 
 
 
@@ -182,6 +182,87 @@ h2 {
   -webkit-text-fill-color: transparent;
   /* Make the text color transparent */
 }
+
+/* globals.css */
+
+.layoutWrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 777px) {
+  .layoutWrapper {
+    flex-direction: column;
+  }
+}
+
+.layoutRightDiv {
+  flex: 1;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+  width: 100%;
+  position: relative;
+
+  background: var(--color-background);
+  border-radius: 1rem;
+  padding: 1rem;
+
+  height: calc(100vh - 2rem);
+  overflow: auto;
+}
+
+/* Checkbox customization */
+input[type=checkbox] {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #fff;
+  border: 2px solid var(--color-primary-blue);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input[type=checkbox]:hover {
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+}
+
+input[type=checkbox]:checked {
+  background-color: var(--color-primary-blue);
+  border-color: var(--color-primary-blue);
+  transform: scale(1.05);
+}
+
+input[type=checkbox]::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  /* border-width: 1px 2px 2px 1px; */
+  /* transform: rotate(45deg) scale(0) translate(-50%, -50%); */
+  transform-origin: center;
+  opacity: 0;
+  transition: all 0.25s ease-out;
+}
+
+input[type=checkbox]:checked::before {
+  transform: rotate(45deg) scale(1) translate(-50%, -50%);
+  opacity: 1;
+}
+
+
 
 /* HTML: <div class="loader"></div> */
 

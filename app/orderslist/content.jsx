@@ -245,7 +245,7 @@ export default function Content(props) {
               <span>{totalPending.length}</span>
             </div>
 
-            {/* <div
+            <div
               onClick={() => {
                 setCurrentPage(1);
                 const compOrders = data?.data.reduce((accumulator, job) => {
@@ -268,9 +268,12 @@ export default function Content(props) {
 
 
                     (job.po_number == "Advance" ||
-                      job.artwork_status == "Hold" ||
-                      job.remarks == "Hold") &&
-                    job.print_ready_status === "" &&
+                      //   job.artwork_status == "Hold" ||
+                      job.remarks == "Hold")
+                    &&
+                    // )
+
+                    // job.print_ready_status === "" &&
                     // (new Date(job.timestamp) > new Date("2025-01-01T00:00:00Z"))
                     // &&
                     // job.po_number == 3 &&
@@ -281,7 +284,7 @@ export default function Content(props) {
                   return accumulator;
                 }, []);
                 setFilterJobList(compOrders);
-                setPdfHeading("Hold Orders List");
+                setPdfHeading("Advance + Hold List");
               }}
               style={{ background: "var(--color-pending-order)" }}
             >
@@ -290,7 +293,7 @@ export default function Content(props) {
                 setCustomQuery(e.target.value);
                 console.log(e.target.value);
               }} /></span>
-            </div> */}
+            </div>
 
           </div>
         </main>
@@ -333,7 +336,7 @@ export default function Content(props) {
               View full table
               <HiOutlineExternalLink />
             </Link> */}
-            
+
             <Download
               pendingListData={filterJobList}
               query={searchQuery}
