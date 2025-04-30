@@ -206,7 +206,7 @@ export const downloadPDF = (pendingListData, query, pdfHeading) => {
   // Save the PDF
   doc.save(`${query}.pdf`);
   // setDownloading(false);
-  const pdfDataUrl = doc.output('dataurlnewwindow');
+  // const pdfDataUrl = doc.output('dataurlnewwindow');
 };
 export default function Download({ pendingListData, query, pdfHeading }) {
   // const [downloading, setDownloading] = useState(false);
@@ -214,7 +214,7 @@ export default function Download({ pendingListData, query, pdfHeading }) {
   return (
     <button
       className={styles.downloadBtn}
-      onClick={downloadPDF(pendingListData, query, pdfHeading)}
+      onClick={downloadPDF(pendingListData?pendingListData:["no item"], query, pdfHeading)}
     // disabled={downloading}
     >
       <MdOutlineDownloading /> &nbsp;

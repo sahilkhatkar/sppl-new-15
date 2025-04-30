@@ -79,6 +79,8 @@
 }
 
 .headerStatus {
+  font-weight: bold;
+  font-size: 0.85rem;
   position: absolute;
   right: 0;
   bottom: 0;
@@ -409,6 +411,29 @@
   scale: 0.9;
 }
 
+.downloadButton {
+  /* background-color: #10b981; */
+  background-color: var(--color-background);
+  /* Emerald green */
+  width: fit-content;
+  color: var(--color-text);
+  color: var(--color-primary-blue);
+  padding: 10px 16px;
+  border: 1px solid var(--color-text);
+  border: 1px solid var(--color-primary-blue);
+  border-radius: 8px;
+  cursor: pointer;
+  /* font-weight: 600; */
+  transition: background-color 0.3s ease;
+}
+
+.downloadButton:hover {
+  color: var(--color-background);
+  background-color: #059669;
+  background-color: var(--color-primary-blue);
+}
+
+
 @media (max-width: 777px) {
   .pagination {
     text-wrap: nowrap;
@@ -419,4 +444,54 @@
     height: calc(100vh - 5.5rem);
     overflow: auto;
   }
+}
+
+
+
+
+/* Re-declarations */
+
+.statusCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5px;
+  padding: 1rem;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  min-width: 160px;
+  transition: transform 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.headerStatus {
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+.inputField {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 240px;
+  outline: none;
+}
+
+.dashboardHeaderSection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filterMenu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.actionButtons > button {
+  margin-left: 1rem;
 }

@@ -24,7 +24,7 @@ export const metadata = {
   keywords: ["Sain Packaging", "Dashboard", "Job Dashboard"],
 };
 
-const scriptURL = "https://script.google.com/macros/s/AKfycbwyQEojQ3oPDKFgw9hDXz_8BDgtEw1WbM9diSOR1u6nhktzw9ZFqINgUT9vGWdJj8E7/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbwKxawj_o46QLFyC3l9phstfA68YwJ7Z6iALemnVtBVh4U1UGwiYM-BvMDSaCd15-ma/exec";
 
 async function getSettingsFromAPI() {
   const res = await fetch(scriptURL);

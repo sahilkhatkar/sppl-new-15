@@ -11,7 +11,8 @@ import { IoNotifications } from "react-icons/io5";
 
 import BgImg from "../public/welcome-bg.jpg";
 import { auth } from "../auth";
-import CustomDropdown from "@/components/CustomDropdown";
+import CustomDropdown from "../components/CustomDropdown";
+import Homepage from "../components/Homepage";
 
 // (async function () {
 //   const data = [
@@ -58,25 +59,9 @@ export default async function Home() {
   ]
 
   return (
-    <div className={styles.container}>
-      <div>
-        <h1>
-          Hi, <strong>{name.charAt(0).toUpperCase() + name.slice(1).toLocaleLowerCase()}</strong>
-        </h1>
-        <div>
-          <strong>{todayDate.toDateString()}</strong>
-          <button>
-            <IoNotifications />
-          </button>
-          <Image
-            src={session?.user?.image || BgImg}
-            height={50}
-            width={50}
-            alt="user-image"
-            style={{ borderRadius: "50%" }}
-          />
-        </div>
-      </div>
+    <>
+      <Homepage name={name} session={session} />
+
       {/* <div className={styles.charts}>
         <Piechart label="Orders" data={result} />
         <Barchart label="Orders" data={result} />
@@ -86,7 +71,8 @@ export default async function Home() {
 
       {/* <PendingList /> */}
 
-      <CustomDropdown defaultValue={options[0]} options={options}/>
-    </div>
+      {/* <CustomDropdown defaultValue={options[0]} options={options}/> */}
+
+    </>
   );
 }

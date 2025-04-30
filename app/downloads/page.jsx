@@ -39,7 +39,7 @@ export default function Page() {
   const [search, setSearch] = useState('');
   const [selectedClients, setSelectedClients] = useState(new Set());
 
-  const filteredClients = clients?.filter(client =>
+  const filteredClients = clients.filter(client =>
     client?.toLowerCase().includes(search.toLowerCase())
   );
 
