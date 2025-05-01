@@ -108,7 +108,7 @@
 
 .dateAndUser {
     display: flex;
-    /* align-items: center; */
+    align-items: center;
     gap: 20px;
 }
 
@@ -154,11 +154,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 4rem 2rem;
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-    min-height: 100vh;
-    text-align: center;
 }
 
 .title {
@@ -175,29 +170,17 @@
 }
 
 .tableWrapper {
-    width: 100%;
-    max-width: 800px;
     background-color: #ffffff;
     border-radius: 8px;
-    overflow-x: auto;
+    padding: 0 .35rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.table {
-    width: 100%;
-    border-collapse: collapse;
-}
 
 .table th,
 .table td {
     padding: 1rem;
-    text-align: left;
     border-bottom: 1px solid #eaeaea;
-}
-
-.table th {
-    background-color: #f0f0f0;
-    font-weight: 600;
 }
 
 .table tr:hover {

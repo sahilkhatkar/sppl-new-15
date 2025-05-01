@@ -18,6 +18,7 @@ import { FaPaperPlane } from "react-icons/fa";
 import { GoLinkExternal } from "react-icons/go";
 import { BsArrowUpRightCircle, BsFillCCircleFill, BsFillHCircleFill, BsFillPCircleFill, BsFillRCircleFill, BsPCircle } from "react-icons/bs";
 import LoadingElement from "../../components/LoadingElement";
+import { motion } from "framer-motion";
 
 import * as XLSX from "xlsx";
 import ExportToExcel from "../../components/ExportToExcel";
@@ -102,280 +103,191 @@ export default function Content(props) {
     link.click();
   };
 
+  const MotionCard = ({ title, count, subCount, onClick, bgColor }) => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      whileHover={{
+        scale: 1.05,
+        boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.1)",
+        transition: { duration: 0.3 },
+      }}
+      whileTap={{ scale: 0.98 }}
+      className={styles.statusCard}
+      style={{ background: bgColor }}
+      onClick={onClick}
+    >
+      <span>{title}</span>
+      {subCount && <span className={styles.headerStatus}>{subCount}</span>}
+      <span>{count}</span>
+    </motion.div>
+  );
+  
+
   return (
     <>
       <div className={styles.mainContainer}>
-        <main className={styles.dashboardHeader}>
-          <h1>Orders</h1>
-          <div className={styles.dashboardHeaderSection}>
+      <main className={styles.dashboardHeader}>
+        <h1>Orders</h1>
+        <div className={styles.dashboardHeaderSection}>
+          <MotionCard
+            title="Total orders"
+            subCount={todayOrder.length > 0 ? `+${todayOrder.length}` : null}
+            count={totalOrders.length}
+            bgColor="#00bbf9"
+            onClick={() => {
+              setCurrentPage(1);
+              setFilterJobList(totalOrders);
+              setPdfHeading("All orders");
+            }}
+          />
 
-            <div
-              style={{ background: "#00bbf9" }}
-            >
-              <span>Total orders</span>
-              <span
-                className={styles.headerStatus}
-                onClick={() => {
-                  setCurrentPage(1);
-                  setFilterJobList(todayOrder);
-                  setPdfHeading(`${new Date().toISOString().split("T")[0]} orders`);
-                }}
-              >
-                {todayOrder.length > 0 ? `+${todayOrder.length}` : ""}
-              </span>
-              <span
-                onClick={() => {
-                  setCurrentPage(1);
-                  setFilterJobList(totalOrders);
-                  setPdfHeading("All orders");
-                }}
-              >{totalOrders.length}</span>
-            </div>
+          <MotionCard
+            title="Completed"
+            subCount={todayDispatch.length > 0 ? `+${todayDispatch.length}` : null}
+            count={completedJobs.length}
+            bgColor="var(--color-primary-green)"
+            onClick={() => {
+              setCurrentPage(1);
+              setFilterJobList(completedJobs);
+              setPdfHeading("Dispatched orders");
+            }}
+          />
 
-            <div
+          <MotionCard
+            title="Print comp. / Ready"
+            subCount={`+${todayPrintComplete.length} P + ${todayMaterialReady.length} R`}
+            count={printCompleteMaterialReady.length}
+            bgColor="var(--color-total-order)"
+            onClick={() => {
+              setCurrentPage(1);
+              setFilterJobList(printCompleteMaterialReady);
+              setPdfHeading("Print comp./Material ready List");
+            }}
+          />
 
-              style={{ background: "var(--color-primary-green)" }}
-            >
-              <span>Completed</span>
-              <span
-                className={styles.headerStatus}
-                onClick={() => {
-                  setCurrentPage(1);
-                  setFilterJobList(todayDispatch);
-                  setPdfHeading(`${new Date().toISOString().split("T")[0]} Dispatch orders`);
-                }}
-              >
-                {todayDispatch.length > 0 ? `+${todayDispatch.length}` : ""}
-              </span>
-              <span
-                onClick={() => {
-                  setCurrentPage(1);
-                  setFilterJobList(completedJobs);
-                  setPdfHeading("Dispatched orders");
-                }}
-              >{completedJobs.length}</span>
-            </div>
+          <MotionCard
+            title="Artwork Pending"
+            count={artworkPending.length}
+            subCount={null}
+            bgColor="var(--color-pending-order)"
+            onClick={() => {
+              setCurrentPage(1);
+              setFilterJobList(artworkPending);
+              setPdfHeading("Artwork Pending List");
+            }}
+          />
 
-            <div
-              style={{ background: "var(--color-total-order)" }}
-            >
-              <span>Print comp. / Ready</span>
-              <span
-                className={styles.headerStatus}
-                onClick={() => {
-                  setCurrentPage(1);
-                  setFilterJobList([...todayMaterialReady, ...todayPrintComplete.filter(job => !todayMaterialReady.includes(job))]);
-                  setPdfHeading(`${new Date().toISOString().split("T")[0]} Print complete + Material ready list`);
-                }}
-              >
-                {
-                  // todayPrintComplete.length > 0
-                  // ?
-                  `+${todayPrintComplete.length} P + ${todayMaterialReady.length} R`
-                  // :
-                  // ""
-                }
-              </span>
-              <span
-                onClick={() => {
-                  setCurrentPage(1);
-                  setFilterJobList(printCompleteMaterialReady);
-                  setPdfHeading("Print comp./Material ready List");
-                }}
-              >{printCompleteMaterialReady.length}</span>
-            </div>
+          <MotionCard
+            title="Jobcard's pending"
+            count={jobcardPending.length}
+            subCount={null}
+            bgColor="var(--color-primary-orange)"
+            onClick={() => {
+              setCurrentPage(1);
+              setFilterJobList(jobcardPending);
+              setPdfHeading("Pending Jobcard orders");
+            }}
+          />
 
-            <div
-              onClick={() => {
-                setCurrentPage(1);
-                setFilterJobList(artworkPending);
-                setPdfHeading("Artwork Pending List");
-              }}
-              style={{ background: "var(--color-pending-order)" }}
-            >
-              <span>Artwork Pending</span>
-              <span>{artworkPending.length}</span>
-            </div>
+          <MotionCard
+            title="Partial quantity"
+            count={partialQuantity.length}
+            subCount={null}
+            bgColor="var(--color-average-value)"
+            onClick={() => {
+              setCurrentPage(1);
+              setFilterJobList(partialQuantity);
+              setPdfHeading("Partial quantity orders");
+            }}
+          />
 
-            <div
-              onClick={() => {
-                setCurrentPage(1);
-                setFilterJobList(jobcardPending);
-                setPdfHeading("Pending Jobcard orders");
-              }}
-              style={{ background: "var(--color-primary-orange)" }}
-            >
-              <span>Jobcard&#39;s pending</span>
-              <span>{jobcardPending.length}</span>
-            </div>
+          <MotionCard
+            title="Print pending"
+            count={printPending.length}
+            subCount={null}
+            bgColor="var(--color-soft-teal)"
+            onClick={() => {
+              setCurrentPage(1);
+              setFilterJobList(printPending);
+              setPdfHeading("Print Pending List");
+            }}
+          />
 
-            <div
-              onClick={() => {
-                setCurrentPage(1);
-                setFilterJobList(partialQuantity);
-                setPdfHeading("Partial quantity orders");
-              }}
-              style={{ background: "var(--color-average-value)" }}
-            >
-              <span>Partial quantity</span>
-              <span>{partialQuantity.length}</span>
-            </div>
-
-            <div
-              onClick={() => {
-                setCurrentPage(1);
-                setFilterJobList(printPending);
-                setPdfHeading("Print Pending List");
-              }}
-              style={{ background: "var(--color-soft-teal)" }}
-            >
-              <span>Print pending</span>
-              <span>{printPending.length}</span>
-            </div>
-
-            <div
-              onClick={() => {
-                setCurrentPage(1);
-                setFilterJobList(totalPending);
-                setPdfHeading("Total Pending List");
-              }}
-              style={{ background: "var(--color-light-coral)" }}
-            >
-              <span>Total pending</span>
-              <span>{totalPending.length}</span>
-            </div>
-
-            {/* <div
-              onClick={() => {
-                setCurrentPage(1);
-                const compOrders = data?.data.reduce((accumulator, job) => {
-                  if (
-                    // job.client == "Nitin Lifescience Unit III" ||
-                    // (
-                    //   job.client == "Leeford Healthcare" ||
-                    //   job.client == "Allkind Healthcare Unit III Katha" ||
-                    //   job.client == "Allkind Healthcare Unit-I" ||
-                    //   job.client == "Allrite Healthcare" ||
-                    //   job.client == "Allrite Healthcare Unit-I" ||
-                    //   job.client == "Allrite Pharmaceuticals Unit-I" ||
-                    //   job.client == "Allrite Pharmaceuticals Unit-II")
-                    // &&
-
-                    // For Designers
-                    // job.artwork_status != "Approved" &&
-                    // job.artwork_status != "Repeat" &&
-                    // job.designer === "Vikas" &&
-
-
-                    (job.po_number == "Advance" ||
-                      //   job.artwork_status == "Hold" ||
-                      job.remarks == "Hold")
-                    &&
-                    // )
-
-                    // job.print_ready_status === "" &&
-                    // (new Date(job.timestamp) > new Date("2025-01-01T00:00:00Z"))
-                    // &&
-                    // job.po_number == 3 &&
-                    job.dispatch_quantity == ""
-                  ) {
-                    accumulator.push(job);
-                  }
-                  return accumulator;
-                }, []);
-                setFilterJobList(compOrders);
-                setPdfHeading("Advance + Hold List");
-              }}
-              style={{ background: "var(--color-pending-order)" }}
-            >
-              <span>Custom Query</span>
-              <span><input className={styles.inputField} type="text" placeholder="Type here..." value={customQuery} onChange={e => {
-                setCustomQuery(e.target.value);
-                console.log(e.target.value);
-              }} /></span>
-            </div> */}
-
-          </div>
-        </main>
-
-        <div className={styles.filterMenu}>
-          <div className={styles.searchField}>
-            <input
-              id="myInput"
-              className={styles.inputField}
-              type="text"
-              placeholder="Search here..."
-              value={searchQuery}
-              onChange={(e) => {
-                setCurrentPage(1);
-                setSearchQuery(e.target.value);
-                console.log(searchQuery)
-
-                let temp = [];
-                for (let i = 0; i < data.data.length; i++)
-                  if (
-                    `${data.data[i].po_number} ${data.data[i].job_order} ${data.data[i].client} ${data.data[i].job_name} ${data.data[i].quantity} ${data.data[i].artwork_status} ${data.data[i].dispatch_status} ${data.data[i].dispatch_order_status}`
-                      .toLowerCase()
-                      .search(e.target.value.toLowerCase()) > -1
-                  )
-                    temp.push(data.data[i]);
-
-                console.log(temp);
-                setFilterJobList(temp);
-              }}
-            />
-            <button>
-              <IoMdSearch />
-            </button>
-            <button>CtrlK</button>
-          </div>
-          <div>
-            {/* <ViewAll /> */}
-
-            {/* <Link href="/filter-view" target="blank">
-              View full table
-              <HiOutlineExternalLink />
-            </Link> */}
-
-            {/* Download Component */}
-            {/* <Download
-              pendingListData={filterJobList}
-              query={searchQuery}
-              pdfHeading={pdfHeading}
-            /> */}
-
-            <button
-              className={styles.downloadButton}
-              onClick={() => {
-                downloadPDF(filterJobList, searchQuery, pdfHeading);
-              }}
-            >
-              Download List
-            </button>
-
-
-
-            {/* <ExportToExcel
-              list={filterJobList}
-              filename={pdfHeading} /> */}
-
-            {/* Button to capture table as an image */}
-            <button
-              onClick={captureTable}
-              style={{
-                padding: "10px 20px",
-                // backgroundColor: "#4CAF50",
-                backgroundColor: "var(--color-primary-green)",
-                color: "white",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
-            >
-              Capture Table as Image
-            </button>
-          </div>
+          <MotionCard
+            title="Total pending"
+            count={totalPending.length}
+            subCount={null}
+            bgColor="var(--color-light-coral)"
+            onClick={() => {
+              setCurrentPage(1);
+              setFilterJobList(totalPending);
+              setPdfHeading("Total Pending List");
+            }}
+          />
         </div>
+      </main>
+
+      <div className={styles.filterMenu}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.6 }}
+          className={styles.searchField}
+        >
+          <input
+            className={styles.inputField}
+            type="text"
+            placeholder="Search here..."
+            value={searchQuery}
+            onChange={(e) => {
+              const query = e.target.value.toLowerCase();
+              setSearchQuery(query);
+              setCurrentPage(1);
+
+              const filtered = data.data.filter(job =>
+                `${job.po_number} ${job.job_order} ${job.client} ${job.job_name} ${job.quantity} ${job.artwork_status} ${job.dispatch_status} ${job.dispatch_order_status}`
+                  .toLowerCase()
+                  .includes(query)
+              );
+
+              setFilterJobList(filtered);
+            }}
+          />
+          <button><IoMdSearch /></button>
+          <button>CtrlK</button>
+        </motion.div>
+
+        <div className={styles.actionButtons}>
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+            className={styles.downloadButton}
+            onClick={() => downloadPDF(filterJobList, searchQuery, pdfHeading)}
+          >
+            Download List
+          </motion.button>
+
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7, duration: 0.6 }}
+            onClick={captureTable}
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "var(--color-primary-green)",
+              color: "white",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+          >
+            Capture Table as Image
+          </motion.button>
+        </div>
+      </div>
 
         <div className={styles.jobsTable} id="tableID">
           <table className={styles.table} ref={tableRef}>

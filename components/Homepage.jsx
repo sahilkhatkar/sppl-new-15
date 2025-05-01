@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import styles from "./homepage.module.css";
 import { IoNotifications } from 'react-icons/io5';
 import Image from 'next/image';
-
+import { useData } from '@/app/DataProvider';
 
 const fadeUp = {
     initial: { opacity: 0, y: 50 },
@@ -24,18 +24,21 @@ const fadeIn = {
     },
 };
 
-const data = [
-    { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'Administrator' },
-    { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'Editor' },
-    { id: 3, name: 'Charlie Rose', email: 'charlie@example.com', role: 'Subscriber' },
-    { id: 4, name: 'Diana Prince', email: 'diana@example.com', role: 'Contributor' },
-    { id: 5, name: 'Ethan Hunt', email: 'ethan@example.com', role: 'Author' },
-];
+// const data = [
+//     { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'Administrator' },
+//     { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'Editor' },
+//     { id: 3, name: 'Charlie Rose', email: 'charlie@example.com', role: 'Subscriber' },
+//     { id: 4, name: 'Diana Prince', email: 'diana@example.com', role: 'Contributor' },
+//     { id: 5, name: 'Ethan Hunt', email: 'ethan@example.com', role: 'Author' },
+// ];
 
 
 export default function Homepage({ session, name }) {
 
     let todayDate = new Date();
+
+    const { data } = useData();
+    console.log("Data: ", typeof data, data);
 
     return (
         <>
@@ -118,9 +121,7 @@ export default function Homepage({ session, name }) {
                         initial="initial"
                         animate="animate"
                     >
-                        Explore the data below to gain insights.
-
-                        (Demo data)
+                        Explore the latest orders below to gain insights.
                     </motion.p>
                     <motion.div
                         className={styles.tableWrapper}
@@ -136,23 +137,25 @@ export default function Homepage({ session, name }) {
                         >
                             <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
+                                    <th>Client</th>
+                                    <th>Job</th>
+                                    <th>Quantity</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map((user) => (
+                                {data?.slice(-10).reverse().map((user, index) => (
                                     <motion.tr
-                                        key={user.id}
+                                        key={user.job_order}
                                         whileHover={{ scale: 1.02 }}
                                         transition={{ type: 'spring', stiffness: 300 }}
                                     >
-                                        <td>{user.id}</td>
-                                        <td>{user.name}</td>
-                                        <td>{user.email}</td>
-                                        <td>{user.role}</td>
+                                        <td>{index + 1}</td>
+                                        <td>{user.job_order}</td>
+                                        <td>{user.client}</td>
+                                        <td>{user.job_name}</td>
+                                        <td>{user.quantity}</td>
                                     </motion.tr>
                                 ))}
                             </tbody>
