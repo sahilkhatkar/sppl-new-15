@@ -21,28 +21,6 @@
         -webkit-text-fill-color: transparent;
         /* Make the text color transparent */
     }
-
-    /* &>div:first-of-type,
-    &>div:first-of-type div {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1rem;
-        border: 2px solid;
-
-        & button {
-            background: transparent;
-            aspect-ratio: 1;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-
-            & svg {
-                color: var(--color-primary-blue);
-                font-size: 1.8rem;
-            }
-        }
-    } */
 }
 
 .header {
@@ -50,7 +28,6 @@
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
-    /* border: 2px solid; */
 
     & button {
         background: transparent;
@@ -170,7 +147,7 @@
 }
 
 .tableWrapper {
-    background-color: #ffffff;
+    background-color: var(--color-background);
     border-radius: 8px;
     padding: 0 .35rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

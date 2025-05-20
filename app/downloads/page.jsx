@@ -6,6 +6,7 @@ import styles from './page.module.css';
 import { useData } from '../DataProvider';
 import { IoMdSearch } from 'react-icons/io';
 import { downloadPDF } from '../../components/Download';
+import { BsFillPCircleFill, BsFillRCircleFill } from 'react-icons/bs';
 
 const containerVariants = {
   hidden: { height: 0 },
@@ -280,8 +281,10 @@ export default function Page() {
                   <th>PO</th>
                   <th>Client</th>
                   <th>Job Name</th>
+                  <th>L x W = U</th>
+                  <th>Paper</th>
                   <th>Quantity</th>
-                  {/* <th>Order Status</th> */}
+                  <th>Order Status</th>
                   {/* Add more <th> if needed */}
                 </tr>
               </thead>
@@ -299,8 +302,23 @@ export default function Page() {
                       <td>{job.po_number}</td>
                       <td>{job.client}</td>
                       <td>{job.job_name}</td>
+                      <td>
+                        {
+                          job.sheet_size_length ?
+                            `${job.sheet_size_length} x ${job.sheet_size_width} = ${job.sheet_size_ups}`
+                            : ''
+                        }
+                      </td>
+                      <td>{job.sheet_avail_status === ""?"":job.sheet_avail_status}</td>
                       <td>{job.quantity}</td>
-                      {/* <td>{job.order_status}</td> */}
+                      <td>{
+                        job.order_status === "Print complete" ?
+
+                          <BsFillPCircleFill style={{ fontSize: "1.3rem", color: "var(--color-total-order)" }} />
+                          : job.order_status === "Material ready" ?
+                            <BsFillRCircleFill style={{ fontSize: "1.3rem", color: "var(--color-primary-green)" }} />
+                            : job.order_status
+                      }</td>
                     </motion.tr>
                   ))}
                 </AnimatePresence>
