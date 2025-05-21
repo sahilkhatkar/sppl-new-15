@@ -80,8 +80,10 @@ export default function Sidemenu() {
             </li>
             <li>
               <Link
-                href="/add-po"
-                className={`${pathname.startsWith("/add-po") ? styles.active : ""
+                href="/add-orders"
+                // href="/add-po"
+                className={`${pathname.startsWith("/add-orders") ? styles.active : ""
+                // className={`${pathname.startsWith("/add-po") ? styles.active : ""
                   }`}
               >
                 <TbNewSection />

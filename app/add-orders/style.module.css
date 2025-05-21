@@ -1,0 +1,81 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  font-family: 'Manrope', sans-serif;
+  padding: 2rem;
+}
+
+.form {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+.heading {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.group {
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.inputField {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.inputField:focus {
+  border-color: #0070f3;
+  outline: none;
+}
+
+.error {
+  color: #e63946;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+}
+
+.success {
+  text-align: center;
+  color: green;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+.button {
+  width: 100%;
+  padding: 0.75rem;
+  background: #0070f3;
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.button:hover {
+  background: #0051c1;
+}
