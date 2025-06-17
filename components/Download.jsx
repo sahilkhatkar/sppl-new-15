@@ -9,7 +9,25 @@ import { MdOutlineDownloading } from "react-icons/md";
 
 import { FaPaperPlane } from "react-icons/fa";
 
-export const downloadPDF = (pendingListData, query, pdfHeading) => {
+export const downloadPDF = (pendingListData, query, pdfHeading
+  // ,
+  //    columns = [
+  //   "S.No",
+  //   "Order ID",
+  //   "Designer",
+  //   "PO no.",
+  //   "Timestamp",
+  //   "Client",
+  //   "Job",
+  //   "Quantity",
+  //   "Paper",
+  //   "Approval",
+  //   "Artwork",
+  //   "Remarks",
+  //   "Job card",
+  //   "Status",
+  // ]
+) => {
   // setDownloading(true);
   if (pendingListData.length === 0) {
     alert("No data available to generate PDF");
@@ -214,7 +232,7 @@ export default function Download({ pendingListData, query, pdfHeading }) {
   return (
     <button
       className={styles.downloadBtn}
-      onClick={downloadPDF(pendingListData?pendingListData:["no item"], query, pdfHeading)}
+      onClick={downloadPDF(pendingListData ? pendingListData : ["no item"], query, pdfHeading)}
     // disabled={downloading}
     >
       <MdOutlineDownloading /> &nbsp;

@@ -12,7 +12,8 @@ import { IoNotifications } from "react-icons/io5";
 import BgImg from "../public/welcome-bg.jpg";
 import { auth } from "../auth";
 import CustomDropdown from "../components/CustomDropdown";
-import Homepage from "../components/Homepage";
+import Homepage from "../components/HomePage/Homepage";
+import DataAnalysisPage from "../components/HomePage/DataAnalysisPage";
 
 // (async function () {
 //   const data = [
@@ -61,6 +62,7 @@ export default async function Home() {
   return (
     <>
       <Homepage name={name} session={session} />
+      {/* <DataAnalysisPage /> */}
 
       {/* <div className={styles.charts}>
         <Piechart label="Orders" data={result} />

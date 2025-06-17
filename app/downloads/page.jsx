@@ -34,9 +34,14 @@ const itemVariants = {
 };
 
 export default function Page() {
-  const { data } = useData();
+  // const { data } = useData();
 
-  const clients = [...new Set(data.map(obj => obj.client))].sort((a, b) => a.localeCompare(b));
+  const { data, isLoading, error } = useData(); // React Query, SWR-style
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  const clients = [...new Set(data?.map(obj => obj.client))].sort((a, b) => a.localeCompare(b));
   const [search, setSearch] = useState('');
   const [selectedClients, setSelectedClients] = useState(new Set());
 
@@ -72,14 +77,17 @@ export default function Page() {
     if (
       // job.client == "Nitin Lifescience Unit III" ||
       Array.from(selectedClients).includes(job.client) &&
-      job.po_number != "Advance" &&
+      job.po_number !== "Advance" &&
       job.dispatch_quantity === ""
     )
       accumulator.push(job);
     return accumulator;
   }, []);
 
-  const keys = Object.keys(data[0] || {});
+  // const keys = Object.keys(data[0] || {});
+  const keys = Object.keys(data[0]) || {};
+  // const keys = data?.length ? Object.keys(data[0]) : [];
+
   const defaultColumns = ['client']; // default visible keys
 
   const [visibleColumns, setVisibleColumns] = useState(new Set(defaultColumns));
@@ -124,14 +132,16 @@ export default function Page() {
                 if (
                   // job.client == "Nitin Lifescience Unit III" ||
                   Array.from(selectedClients).includes(job.client) &&
-                  job.po_number != "Advance" &&
+                  job.po_number !== "Advance" &&
                   job.dispatch_quantity === ""
                 )
                   accumulator.push(job);
                 return accumulator;
               }, []);
 
-              downloadPDF(customQueryList, search, Array.from(selectedClients).join('_-_').concat("-List"));
+              downloadPDF(customQueryList, search, Array.from(selectedClients).join('_-_').concat("-List"),
+                Array.from(visibleColumns)
+              );
             }}
           >
             Download List
@@ -150,7 +160,7 @@ export default function Page() {
 
           {isDropdownOpen && (
             <div className={styles.dropdownMenu}>
-              {keys.map((key) => (
+              {keys && keys.map((key) => (
                 <label key={key} className={styles.dropdownItem}>
                   <input
                     type="checkbox"
@@ -189,14 +199,14 @@ export default function Page() {
           >
             <AnimatePresence>
 
-              {filteredClients.map((client, index) => {
+              {filteredClients && filteredClients.map((client, index) => {
                 const isSelected = selectedClients.has(client);
 
                 const clientJobs = data?.reduce((accumulator, job) => {
                   if (
                     // job.client == "Nitin Lifescience Unit III" ||
                     job.client === client &&
-                    job.po_number != "Advance" &&
+                    job.po_number !== "Advance" &&
                     job.dispatch_quantity === ""
                   ) {
                     accumulator.push(job);
@@ -227,7 +237,7 @@ export default function Page() {
                       {/* <strong>{client}</strong> */}
                       <p>{client}</p>
                       {
-                        clientJobs.length && clientJobs.length > 0 ? (
+                        clientJobs.length > 0 ? (
                           <span>{clientJobs.length} jobs</span>
                         ) : <span>-</span>
                       }
@@ -290,9 +300,11 @@ export default function Page() {
               </thead>
               <tbody>
                 <AnimatePresence>
-                  {selectedClientsPreview.map((job, index) => (
+                  {selectedClientsPreview && selectedClientsPreview.map((job, index) => (
                     <motion.tr
-                      key={job.job_order}
+                      // key={job.job_order}
+                      key={job.job_order || `${job.client}-${index}`}
+
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
@@ -309,7 +321,7 @@ export default function Page() {
                             : ''
                         }
                       </td>
-                      <td>{job.sheet_avail_status === ""?"":job.sheet_avail_status}</td>
+                      <td>{job.sheet_avail_status === "" ? "" : job.sheet_avail_status}</td>
                       <td>{job.quantity}</td>
                       <td>{
                         job.order_status === "Print complete" ?

@@ -41,7 +41,8 @@ export default async function RootLayout({ children }) {
       <SessionProvider session={session}>
         <body>
           <ThemeProvider>
-            <DataProvider data={settings}>
+            {/* <DataProvider data={settings}> */}
+            <DataProvider>
               <div className="layoutWrapper">
                 <Sidemenu />
                 <div className="layoutRightDiv">{children}</div>
